@@ -18,20 +18,33 @@ from django.contrib import admin
 from django.urls import path, include
 from django_registration.backends.one_step.views import RegistrationView
 
-from lauda.views.error_view import error_view
-# from lauda.forms import UserForm
-from lauda.views.auth_views import register_user, login
+from lauda.views import driver_views, auth_views, index_views
+from lauda.views.error_view import errors_view
+
+from lauda.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('register/',
-         register_user,
+         auth_views.register_user,
          name='django_registration_register'),
-    path('login/',
-         login,
+
+    path('',
+         auth_views.login,
          name='login'),
+
+    path('index/',
+         index_views.index_view,
+         name='index'),
+
+    path('email_verification/', auth_views.verify_email, name='email_verification'),
+    path('email_confirmation/', auth_views.confirm_email, name='email_confirmation'),
+
+    path('driver_profile/', driver_views.create_driver, name='driver_profile'),
+
     path('', include('lauda.urls')),
     path('', include('django_registration.backends.one_step.urls')),
     path('__reload__/', include('django_browser_reload.urls')),
-    path('404/', error_view, name="404")
+    path('404/', errors_view, name="404")
 ]

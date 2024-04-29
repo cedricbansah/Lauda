@@ -1,5 +1,22 @@
-from django.contrib.auth.models import AbstractUser
+from datetime import datetime
+
+from django.contrib.auth.models import AbstractUser, User
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from lauda.managers import CustomUserManager
+
+
+class User(AbstractUser):
+    email = models.EmailField(_("email address"), unique=True)
+    objects = CustomUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    @property
+    def username(self):
+        return None
 
 
 class Vehicle(models.Model):
@@ -27,7 +44,7 @@ class Vehicle(models.Model):
     make = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
     year = models.IntegerField
-    registration_number = models.CharField(max_length=255, unique=True)
+    license_plate = models.CharField(max_length=255, unique=True)
     color = models.CharField(max_length=255)
 
     vehicle_type = models.CharField(
@@ -47,12 +64,9 @@ class Vehicle(models.Model):
         return f"{self.year} {self.make} {self.model} - {self.license_plate}"
 
 
-class Driver(models.Model):
+class Driver(User):
     # Model to represent a driver
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
-    date_of_birth = models.DateField
-    email = models.EmailField
+    date_of_birth = models.DateField()
     phone_number = models.CharField(max_length=10)
     license_number = models.CharField(max_length=255, unique=True)
     address = models.CharField(max_length=255)
@@ -68,3 +82,8 @@ class Driver(models.Model):
 #
 #     def __str__(self):
 #         return f"{self.username} {self.email}"
+
+
+class VerificationToken(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    token = models.CharField(max_length=255)

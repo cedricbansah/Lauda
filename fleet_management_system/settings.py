@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv('.env')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -101,6 +104,14 @@ DATABASES = {
     }
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_ID')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PW')
+
+DEFAULT_FROM_EMAIL = 'User Verification<no_reply@lauda.com>'
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -142,7 +153,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # REGISTRATION_API_VIEW_PASSWORD_SALT = os.environ.get('REGISTRATION_SALT')
 
-# AUTH_USER_MODEL = 'lauda.User'
+AUTH_USER_MODEL = 'lauda.User'
+
+MAILJET_API_KEY=os.environ['MAILJET_API_KEY']
+MAILJET_API_SECRET=os.environ['MAILJET_SECRET_KEY']
 
 # TAILWIND_APP_NAME = 'theme'
 
