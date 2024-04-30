@@ -1,5 +1,10 @@
+import json
+from urllib.parse import parse_qs
+
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from mailjet_rest import Client
 
 from fleet_management_system import settings
@@ -13,7 +18,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from lauda.forms.auth_forms import LoginForm
 from django.contrib.auth.models import User
 
-from lauda.forms.driver_forms import DriverForm
+from lauda.forms.driver_forms import *
 from lauda.models import VerificationToken, Driver
 from lauda.serializers.auth_serializers.login_serializer import LoginSerializer
 from lauda.serializers.auth_serializers.register_serializer import RegisterSerializer
@@ -103,3 +108,93 @@ def verify_email(request):
     return redirect(reverse("404"))
 def confirm_email(request):
     return render(request, 'django_registration/email_confirmation.html')
+
+
+def forgot_password(request):
+    if request.method == "POST":
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                driver = Driver.objects.get(email=email)
+            except Driver.DoesNotExist:
+                return redirect(reverse("404"))
+
+            mailjet = Client(auth=(settings.MAILJET_API_KEY,
+                                   settings.MAILJET_API_SECRET), version='v3.1')
+
+            token_generator = PasswordResetTokenGenerator()
+            password_token = token_generator.make_token(driver)
+
+            params = f'driver_id={driver.id}&token={password_token}'
+            encrypted_params = urlsafe_base64_encode(force_bytes(params))
+            data = {
+                'Messages': [
+                    {
+                        "From": {
+                            "Email": 'cedibans@gmail.com',
+                            "Name": "LAUDA"
+                        },
+                        "To": [
+                            {
+                                "Email": request.POST['email'],
+                                "Name": driver.get_full_name()
+                            }
+                        ],
+                        "Subject": "Lauda Email Verification",
+                        "HTMLPart": f"Please click here to reset your password: http://localhost:8000/reset_password?data={encrypted_params}",
+
+                    }
+                ]
+            }
+
+            mailjet.send.create(data=data)
+            print(form.errors)
+            return redirect(reverse("forgot_password_confirmation"))
+
+    form = ForgotPasswordForm()
+
+    return render(request, 'django_registration/forgot_password.html', {"form": form})
+
+
+def reset_password(request):
+    if request.method == "POST":
+        form = ResetPasswordForm(request.POST)
+        if form.is_valid():
+            try:
+                driver = Driver.objects.get(pk=request.POST['driver_id'])
+            except Driver.DoesNotExist:
+                return redirect(reverse('404'))
+            driver.set_password(request.POST['password1'])
+            driver.save()
+            # print(form.errors)
+            return redirect(reverse("login"))
+
+    data = request.GET.get('data')
+
+
+    # print("hello cnana")
+    if not data:
+        return redirect(reverse('404'))
+
+    # Decode the URL-safe base64 encoded string
+    decoded_bytes = urlsafe_base64_decode(data)
+    decoded_str = decoded_bytes.decode('utf-8')
+
+    # Parse the decoded string into key-value pairs
+    parsed_params = parse_qs(decoded_str)
+
+    # Convert the parsed parameters to a dictionary
+    params_dict = {key: value[0] for key, value in parsed_params.items()}
+    print(params_dict)
+
+    password_token = params_dict['token']
+    driver_id = params_dict['driver_id']
+
+    form = ResetPasswordForm()
+
+    return render(request, 'django_registration/reset_password.html', {"form": form, "token": password_token, "driver_id": driver_id})
+
+
+def forgot_password_confirmation(request):
+    return render(request, 'django_registration/forgot_password_confirmation.html')
