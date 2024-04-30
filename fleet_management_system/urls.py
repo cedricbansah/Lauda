@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django_registration.backends.one_step.views import RegistrationView
-
 from lauda.views import driver_views, auth_views, index_views
 from lauda.views.error_view import errors_view
 
@@ -40,6 +39,11 @@ urlpatterns = [
 
     path('email_verification/', auth_views.verify_email, name='email_verification'),
     path('email_confirmation/', auth_views.confirm_email, name='email_confirmation'),
+
+    path('forgot_password/', auth_views.forgot_password, name='forgot_password'),
+    path('reset_password/', auth_views.reset_password, name='reset_password'),
+
+    path('forgot_password_confirmation/', auth_views.forgot_password_confirmation, name='forgot_password_confirmation'),
 
     path('driver_profile/', driver_views.create_driver, name='driver_profile'),
 
