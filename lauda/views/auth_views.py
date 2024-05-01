@@ -1,27 +1,20 @@
 import json
 from urllib.parse import parse_qs
 
-from django.contrib.auth.forms import UserCreationForm
-from django.core.exceptions import ValidationError
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from mailjet_rest import Client
 
 from fleet_management_system import settings
-from lauda.forms import UserForm
-from lauda.forms.auth_forms import UserRegistrationForm
-from verify_email.email_handler import send_verification_email
+
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 from lauda.forms.auth_forms import LoginForm
-from django.contrib.auth.models import User
 
 from lauda.forms.driver_forms import *
 from lauda.models import VerificationToken, Driver
-from lauda.serializers.auth_serializers.login_serializer import LoginSerializer
-from lauda.serializers.auth_serializers.register_serializer import RegisterSerializer
 
 
 # Register a new user
@@ -38,7 +31,6 @@ def register_user(request):
             driver.save()
             mailjet = Client(auth=(settings.MAILJET_API_KEY,
                                    settings.MAILJET_API_SECRET), version='v3.1')
-
 
             data = {
                 'Messages': [
@@ -60,7 +52,6 @@ def register_user(request):
                 ]
             }
 
-
             mailjet.send.create(data=data)
 
             return redirect(reverse("email_confirmation"))
@@ -78,8 +69,13 @@ def login(request):
         if login_form.is_valid():
             login_form.clean()
             user = login_form.get_user()
+            request.session['user_id'] = user.id
             login_form.confirm_login_allowed(user)
-            return redirect("driver_profile")
+
+            if user.is_staff:
+                return redirect(reverse("manager_dashboard"))
+
+            return redirect(reverse("vehicle_info"))
             # username = request.POST['username']
             # password = request.POST['password']
         else:
@@ -106,6 +102,8 @@ def verify_email(request):
         return redirect(reverse("login"))
 
     return redirect(reverse("404"))
+
+
 def confirm_email(request):
     return render(request, 'django_registration/email_confirmation.html')
 
@@ -172,7 +170,6 @@ def reset_password(request):
 
     data = request.GET.get('data')
 
-
     # print("hello cnana")
     if not data:
         return redirect(reverse('404'))
@@ -193,7 +190,8 @@ def reset_password(request):
 
     form = ResetPasswordForm()
 
-    return render(request, 'django_registration/reset_password.html', {"form": form, "token": password_token, "driver_id": driver_id})
+    return render(request, 'django_registration/reset_password.html',
+                  {"form": form, "token": password_token, "driver_id": driver_id})
 
 
 def forgot_password_confirmation(request):

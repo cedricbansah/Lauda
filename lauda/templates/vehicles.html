@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>VEHICLES</title>
-</head>
-<body>
-    <h1>Vehicles</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Year</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Color</th>
-                <th>License Plate</th>
-                <th>Body Type</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for vehicle in vehicles %}
-            <tr>
-                <td>{{ vehicle.year }}</td>
-                <td>{{ vehicle.make }}</td>
-                <td>{{ vehicle.model }}</td>
-                <td>{{ vehicle.color }}</td>
-                <td>{{ vehicle.registration_number }}</td>
-                <td>{{ vehicle.vehicle_type }}</td>
-                <td>{{ vehicle.vehicle_status }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
+    <head>
+        <!-- Include Django's default CSS -->
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}">
+        <meta charset="UTF-8">
+        <title>VEHICLES</title>
+    </head>
+    <body>
+        <h1>Vehicles</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Color</th>
+                    <th>License Plate</th>
+                    <th>Body Type</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                <tr>
+                    <td>{{ vehicle.year }}</td>
+                    <td>{{ vehicle.make }}</td>
+                    <td>{{ vehicle.model }}</td>
+                    <td>{{ vehicle.color }}</td>
+                    <td>{{ vehicle.registration_number }}</td>
+                    <td>{{ vehicle.vehicle_type }}</td>
+                    <td>{{ vehicle.vehicle_status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
 </html>

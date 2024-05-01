@@ -1,15 +1,19 @@
-{#{% extends '../base.html' %}#}
-{#{% load tailwind_tags %}#}
-{#{% tailwind_css %}#}
-    {% block title %}
-        Welcome!
-    {% endblock %}
-
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Include Django's default CSS -->
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}">
+        <title>LAUDA</title>
+        {% block title %}
+            Welcome!
+        {% endblock %}
+    </head>
     {% block content %}
         <h1>Log In</h1>
         <form class="login_form" method="post">
           {% csrf_token %}
-            {{ form }}
+            {{ form.as_p }}
             <button>Log In</button>
         </form>
         <p>
@@ -19,5 +23,4 @@
             Forgot password? Reset your password <a href="forgot_password">here</a>
         </p>
     {% endblock %}
-  </body>
 </html>

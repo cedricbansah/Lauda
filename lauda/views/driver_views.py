@@ -6,8 +6,8 @@ from lauda.forms.driver_forms import DriverForm
 from lauda.models import Driver
 
 
-# @login_required(login_url='login')
-def create_driver(request):
+@login_required(login_url='login')
+def driver_profile(request):
     if request.method == 'POST':
 
         form = DriverForm(request.POST)
@@ -32,5 +32,6 @@ def create_driver(request):
             'email': user.email,
         }
         form = DriverForm(initial=initial_data)
+        # return redirect()
 
     return render(request, 'driver_profile.html', {"form": form})

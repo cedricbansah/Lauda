@@ -1,6 +1,12 @@
 {#{% extends '../base.html' %}#}
 {#{% load tailwind_tags %}#}
 {#{% tailwind_css %}#}
+    <head>
+        <!-- Include Django's default CSS -->
+      {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}">
+        <title>Register</title>
+    </head>
     {% block title %}
         Register a new user
     {% endblock %}
@@ -9,7 +15,7 @@
         <h1>Register a new user</h1>
         <form class="registration_form" method="post">
           {% csrf_token %}
-            {{ form }}
+            {{ form.as_p }}
             <button>Submit</button>
         </form>
     {% endblock %}

@@ -13,6 +13,9 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    class Meta:
+        verbose_name = _("Admin")
+        verbose_name_plural = _("Admins")
 
     @property
     def username(self):
@@ -70,10 +73,14 @@ class Driver(User):
     phone_number = models.CharField(max_length=10)
     license_number = models.CharField(max_length=255, unique=True)
     address = models.CharField(max_length=255)
-    vehicle_assigned = models.ForeignKey(Vehicle, on_delete=models.SET_NULL, null=True, blank=True)
+    vehicle_assigned = models.OneToOneField(Vehicle, related_name='driver', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.license_number}"
+
+    class Meta:
+        verbose_name = _("Driver")
+        verbose_name_plural = _("Drivers")
 
 
 # class User(AbstractUser):

@@ -1,0 +1,46 @@
+/* Styles for tab headers */
+    .tab {
+        overflow: hidden;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .tab button {
+        background-color: inherit;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+
+    .tab button:hover {
+        background-color: #ddd;
+    }
+
+    .tab button.active {
+        border-bottom: 2px solid blue; /* Underline style for active tab */
+    }
+
+    /* Styles for tab content */
+    .tabcontent {
+        display: none;
+        padding: 20px;
+        border-top: none;
+    }
+
+    /* Make the table look nice */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }

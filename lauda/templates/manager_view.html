@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <!-- Include Django's default CSS -->
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'lauda/css/manager.css' %}">
+        <title>Manager View</title>
+    </head>
+    <body>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Drivers')" id="defaultOpen">Drivers</button>
+            <button class="tablinks" onclick="openTab(event, 'Vehicles')">Vehicles</button>
+        </div>
+
+        <div id="Drivers" class="tabcontent">
+            <h3>Drivers</h3>
+        <!-- Render your drivers table here -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>DOB</th>
+                        <th>Address</th>
+                        <th>License Number</th>
+                        <th>Vehicle Assigned</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for driver in drivers %}
+                    <tr>
+                        <td>{{ driver.first_name }}</td>
+                        <td>{{ driver.last_name }}</td>
+                        <td>{{ driver.email }}</td>
+                        <td>{{ driver.phone_number }}</td>
+                        <td>{{ driver.date_of_birth }}</td>
+                        <td>{{ driver.address }}</td>
+                        <td>{{ driver.license_number }}</td>
+                        <td>{{ driver.vehicle_assigned }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div id="Vehicles" class="tabcontent">
+            <h3>Vehicles</h3>
+            <!-- Render your vehicles table here -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Year</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>Color</th>
+                        <th>License Plate</th>
+                        <th>Body Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vehicle in vehicles %}
+                    <tr>
+                        <td>{{ vehicle.year }}</td>
+                        <td>{{ vehicle.make }}</td>
+                        <td>{{ vehicle.model }}</td>
+                        <td>{{ vehicle.color }}</td>
+                        <td>{{ vehicle.license_plate }}</td>
+                        <td>{{ vehicle.vehicle_type }}</td>
+                        <td>{{ vehicle.vehicle_status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    <script src="{% static 'lauda/js/manager.js' %}"></script>
+    </body>
+</html>
