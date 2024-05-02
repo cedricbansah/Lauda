@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
+from fleet_management_system.settings import DOMAIN
 from lauda.forms.auth_forms import LoginForm
 
 from lauda.forms.driver_forms import *
@@ -46,7 +47,7 @@ def register_user(request):
                             }
                         ],
                         "Subject": "Lauda Email Verification",
-                        "HTMLPart": f"Please click here to verify your email: http://localhost:8000/email_verification?id={driver.id}",
+                        "HTMLPart": f"Please click here to verify your email: {DOMAIN}/email_verification?id={driver.id}",
 
                     }
                 ]
@@ -138,7 +139,7 @@ def forgot_password(request):
                             }
                         ],
                         "Subject": "Lauda Email Verification",
-                        "HTMLPart": f"Please click here to reset your password: http://localhost:8000/reset_password?data={encrypted_params}",
+                        "HTMLPart": f"Please click here to reset your password: {DOMAIN}/reset_password?data={encrypted_params}",
 
                     }
                 ]
