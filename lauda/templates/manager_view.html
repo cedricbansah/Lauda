@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{#{% extends base.html %}#}
     <head>
         <meta charset="UTF-8">
         <!-- Include Django's default CSS -->
@@ -8,23 +9,26 @@
         <link rel="stylesheet" type="text/css" href="{% static 'lauda/css/manager.css' %}">
         <title>Manager View</title>
     </head>
-    <body data-active-vehicles="{{ active_vehicles }}"
+    <body class = font-sans"
+          data-active-vehicles="{{ active_vehicles }}"
           data-inactive-vehicles="{{ inactive_vehicles }}"
           data-assigned-drivers="{{ assigned_drivers }}"
           data-unassigned-drivers="{{ unassigned_drivers }}">
-        <form class="file-handler" method="post" enctype="multipart/form-data">
+        <form class="flex items-center mb-3" method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          <label for="file">Upload Excel File:</label>
-          <input type="file" name="file" id="file">
-          <button class="form-buttons" type="submit">Save New Vehicles</button>
+          <label for="file" class="mr-2 text-gray-700">Upload Excel File:</label>
+          <input type="file" name="file" id="file" class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+          <button class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700" type="submit">Save New Vehicles</button>
         </form>
         <button onclick="window.location.href='{% url 'export_to_excel' %}'">Export Vehicles to Excel</button>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="bg-gray-100 rounded-md p-4 shadow-md">
+                <canvas id="vehicleStatusChart"></canvas>
+            </div>
 
-        <div class="chart-container">
-            <canvas id="vehicleStatusChart"></canvas>
-        </div>
-        <div class="chart-container">
-            <canvas id="driverStatusChart"></canvas>
+            <div class="bg-gray-100 rounded-md p-4 shadow-md">
+                <canvas id="driverStatusChart"></canvas>\
+            </div>
         </div>
 
         <div class="tab">
@@ -32,7 +36,7 @@
             <button class="tablinks" onclick="openTab(event, 'Vehicles')">Vehicles</button>
         </div>
 
-        <div id="Drivers" class="tabcontent">
+        <div id="Drivers" class="tabcontent container mx-auto px-4 py-2">
             <h3>Drivers</h3>
         <!-- Render your drivers table here -->
             <table>
