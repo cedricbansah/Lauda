@@ -1,5 +1,5 @@
 from django.db import IntegrityError
-from django.db.models import Count, When, Case, IntegerField
+from django.db.models import Count, When, Case, IntegerField, Q
 from django.shortcuts import render, redirect
 from django.urls import reverse
 import pandas as pd
@@ -30,8 +30,6 @@ def manager_view(request):
             ))
         Vehicle.objects.bulk_create(vehicle_list, ignore_conflicts=True)
 
-
-
     if "user_id" not in request.session:
         return redirect(reverse('login'))
 
@@ -51,9 +49,15 @@ def manager_view(request):
         active_vehicles=Count(Case(When(vehicle_status='Active', then=1), output_field=IntegerField())),
         inactive_vehicles=Count(Case(When(vehicle_status='Inactive', then=1), output_field=IntegerField()))
     )
-    print(vehicles)
+    # print(vehicles)
+
     vehicle_types = list(Vehicle.objects.values_list('vehicle_type', flat=True).distinct())
 
+    vehicle_types_count = Vehicle.objects.aggregate(
+        total_vehicles=Count('id'),
+        **{''.join(char for char in vehicle_type if char.isalnum()) + '_count': Count('id', filter=Q(vehicle_type=vehicle_type)) for vehicle_type in vehicle_types}
+    )
+    print(vehicle_types_count)
     drivers = all_drivers.aggregate(
         total_drivers=Count('id'),
         assigned_drivers=Count(Case(When(vehicle_assigned__isnull=False, then=1), output_field=IntegerField())),
@@ -68,7 +72,6 @@ def manager_view(request):
     unassigned_drivers = drivers['unassigned_drivers']
     total_drivers = assigned_drivers + assigned_drivers
 
-
     context = {
         'all_drivers': all_drivers,
         'all_vehicles': all_vehicles,
@@ -80,10 +83,9 @@ def manager_view(request):
         'total_drivers': total_drivers,
         'assigned_drivers': assigned_drivers,
         'unassigned_drivers': unassigned_drivers,
+        **vehicle_types_count
 
     }
     # print(context)
-
-
 
     return render(request, 'manager_view.html', context)

@@ -17,13 +17,13 @@ function openTab(evt, tabName) {
 document.getElementById("defaultOpen").click();
 
 
-function initVehicleChart() {
+function initVehicleStatusChart() {
     const ctx = document.getElementById('vehicleStatusChart').getContext('2d');
     const activeVehicles = document.body.getAttribute('data-active-vehicles');
     const inactiveVehicles = document.body.getAttribute('data-inactive-vehicles');
     console.log({activeVehicles})
     const vehicleStatusChart = new Chart(ctx, {
-            type: 'pie',  // Choose chart type (pie, bar, line, etc.)
+            type: 'doughnut',  // Choose chart type (pie, bar, line, etc.)
             data: {
                 'labels': ['Active', 'Inactive'],
                 'datasets': [{
@@ -32,6 +32,9 @@ function initVehicleChart() {
                 }]
             },  // Pass chart data from Python context
             options: {
+                layout: {
+                    padding: 20
+                },
                 responsive: true, // Enable responsiveness
                 title: 'Vehicle Status'
                 // Add other chart options as needed (e.g., title, legend)
@@ -40,23 +43,26 @@ function initVehicleChart() {
         );
     }
 
-function initDriverChart() {
-    const ctx = document.getElementById('driverStatusChart').getContext('2d');
-    const assignedDrivers = document.body.getAttribute('data-assigned-drivers');
-    const unassignedDrivers = document.body.getAttribute('data-unassigned-drivers');
-    console.log({unassignedDrivers})
-    const vehicleStatusChart = new Chart(ctx, {
-            type: 'pie',  // Choose chart type (pie, bar, line, etc.)
+function initVehicleTypeChart() {
+    const ctx = document.getElementById('vehicleTypeChart').getContext('2d');
+    const sedanCount = document.body.getAttribute('data-sedan-count');
+    const suvCount = document.body.getAttribute('data-suv-count');
+    const minivanCount = document.body.getAttribute('data-minivan-count');
+    const pickupTruckCount = document.body.getAttribute('data-pickuptruck-count');
+    const hatchbackCount = document.body.getAttribute('data-hatchback-count');
+    console.log({pickupTruckCount})
+    const vehicleTypeChart = new Chart(ctx, {
+            type: 'doughnut',  // Choose chart type (pie, bar, line, etc.)
             data: {
-                'labels': ['Assigned', 'Unassigned'],
+                'labels': ['Sedans', 'Suvs', 'Pick-up Trucks','Minivans', 'Hatchbacks'],
                 'datasets': [{
-                    'data': [assignedDrivers, unassignedDrivers],
-                    'backgroundColor': ['#008000', '#FF0000'],
+                    'data': [sedanCount, suvCount, minivanCount, pickupTruckCount, hatchbackCount],
+                    'backgroundColor': ['#008000', '#FF0000', '#bfbd21', '#bf21af', '#21bfb7'],
                 }]
             },  // Pass chart data from Python context
             options: {
                 responsive: true, // Enable responsiveness
-                title: 'Driver Status'
+                title: 'Vehicle Type'
                 // Add other chart options as needed (e.g., title, legend)
             }
         }
@@ -64,8 +70,9 @@ function initDriverChart() {
     }
 
 
+
 window.onload = () => {
-    initVehicleChart();
-    initDriverChart();
+    initVehicleStatusChart();
+    initVehicleTypeChart();
 };
 
