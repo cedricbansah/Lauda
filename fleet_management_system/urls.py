@@ -14,10 +14,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django_registration.backends.one_step.views import RegistrationView
-from lauda.views import driver_views, auth_views, index_views, vehicle_views, manager_views
+
+from fleet_management_system import settings
+from lauda.views import driver_views, auth_views, index_views, vehicle_views, manager_views, export_to_excel_view
 from lauda.views.error_view import errors_view
 
 from lauda.views import *
@@ -66,8 +69,15 @@ urlpatterns = [
          manager_views.manager_view,
          name='manager_dashboard'),
 
+    path('export-to-excel/',
+         export_to_excel_view.export_to_excel,
+         name='export_to_excel'),
+
     path('', include('lauda.urls')),
     path('', include('django_registration.backends.one_step.urls')),
     path('__reload__/', include('django_browser_reload.urls')),
     path('404/', errors_view, name="404")
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

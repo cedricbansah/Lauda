@@ -46,7 +46,7 @@ class Vehicle(models.Model):
 
     make = models.CharField(max_length=255)
     model = models.CharField(max_length=255)
-    year = models.IntegerField
+    year = models.IntegerField(null=True, blank=True)
     license_plate = models.CharField(max_length=255, unique=True)
     color = models.CharField(max_length=255)
 
@@ -61,7 +61,8 @@ class Vehicle(models.Model):
         default=ACTIVE
     )
 
-    #    driver_assigned = models.ForeignKey(Driver, to_field=registration_number, on_delete=models.SET_NULL, null=True, blank=True)
+    # driver_assigned = models.ForeignKey(Driver, to_field=registration_number, on_delete=models.SET_NULL, null=True,
+    # blank=True)
 
     def __str__(self):
         return f"{self.year} {self.make} {self.model} - {self.license_plate}"

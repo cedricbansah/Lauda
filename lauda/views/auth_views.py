@@ -1,4 +1,3 @@
-import json
 from urllib.parse import parse_qs
 
 from django.utils.encoding import force_bytes
@@ -14,7 +13,7 @@ from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from lauda.forms.auth_forms import LoginForm
 
 from lauda.forms.driver_forms import *
-from lauda.models import VerificationToken, Driver
+from lauda.models import Driver
 
 
 # Register a new user

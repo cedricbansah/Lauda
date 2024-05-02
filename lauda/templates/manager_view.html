@@ -8,7 +8,25 @@
         <link rel="stylesheet" type="text/css" href="{% static 'lauda/css/manager.css' %}">
         <title>Manager View</title>
     </head>
-    <body>
+    <body data-active-vehicles="{{ active_vehicles }}"
+          data-inactive-vehicles="{{ inactive_vehicles }}"
+          data-assigned-drivers="{{ assigned_drivers }}"
+          data-unassigned-drivers="{{ unassigned_drivers }}">
+        <form class="file-handler" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label for="file">Upload Excel File:</label>
+          <input type="file" name="file" id="file">
+          <button class="form-buttons" type="submit">Save New Vehicles</button>
+        </form>
+        <button onclick="window.location.href='{% url 'export_to_excel' %}'">Export Vehicles to Excel</button>
+
+        <div class="chart-container">
+            <canvas id="vehicleStatusChart"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="driverStatusChart"></canvas>
+        </div>
+
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'Drivers')" id="defaultOpen">Drivers</button>
             <button class="tablinks" onclick="openTab(event, 'Vehicles')">Vehicles</button>
@@ -31,7 +49,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for driver in drivers %}
+                    {% for driver in all_drivers %}
                     <tr>
                         <td>{{ driver.first_name }}</td>
                         <td>{{ driver.last_name }}</td>
@@ -63,7 +81,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for vehicle in vehicles %}
+                    {% for vehicle in all_vehicles %}
                     <tr>
                         <td>{{ vehicle.year }}</td>
                         <td>{{ vehicle.make }}</td>
@@ -78,5 +96,8 @@
             </table>
         </div>
     <script src="{% static 'lauda/js/manager.js' %}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+
     </body>
 </html>

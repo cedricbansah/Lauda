@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+
 load_dotenv('.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -82,6 +83,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'fleet_management_system.wsgi.application'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# STATIC_ROOT = 'C:\\Users\CEDRIC BANSAH\PycharmProjects\\fleet_management_system\static\lauda'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -144,7 +148,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -155,8 +158,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'lauda.User'
 
-MAILJET_API_KEY=os.environ['MAILJET_API_KEY']
-MAILJET_API_SECRET=os.environ['MAILJET_SECRET_KEY']
+MAILJET_API_KEY = os.environ['MAILJET_API_KEY']
+MAILJET_API_SECRET = os.environ['MAILJET_SECRET_KEY']
 
 # TAILWIND_APP_NAME = 'theme'
 
