@@ -16,18 +16,17 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
-from django.contrib.auth import views
-from django_registration.backends.one_step.views import RegistrationView
+from django.urls import path
+
 
 from fleet_management_system import settings
 from lauda.views import (driver_views, auth_views,
-                         index_views, vehicle_views,
+                         index_views,
                          manager_views, export_to_excel_view)
 
 from lauda.views.error_view import errors_view
 
-from lauda.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
