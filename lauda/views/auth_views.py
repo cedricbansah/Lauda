@@ -14,6 +14,7 @@ from lauda.forms.auth_forms import LoginForm
 
 from lauda.forms.driver_forms import *
 from lauda.models import Driver
+from lauda.utils.show_errors import show_error
 
 
 # Register a new user
@@ -55,7 +56,7 @@ def register_user(request):
 
             return redirect(reverse("email_confirmation"))
         print(form.errors)
-        return redirect(reverse("404"))
+        return show_error(request, 'Invalid Registration Form')
     else:
         form = DriverForm()
 
@@ -66,15 +67,13 @@ def login(request):
     if request.method == "POST":
         login_form = LoginForm(data=request.POST)
         if login_form.is_valid():
-            login_form.clean()
             user = login_form.get_user()
+            print(user)
             request.session['user_id'] = user.id
-            login_form.confirm_login_allowed(user)
-
             if user.is_staff:
                 return redirect(reverse("manager_dashboard"))
 
-            return redirect(reverse("vehicle_info"))
+            return redirect(reverse("driver_dashboard"))
             # username = request.POST['username']
             # password = request.POST['password']
         else:
@@ -94,13 +93,13 @@ def verify_email(request):
             driver = Driver.objects.get(id=driver_id)
 
         except Driver.DoesNotExist:
-            return redirect(reverse("404"))
+            return show_error(request, 'Driver Does Not Exist')
 
         driver.is_active = True
         driver.save()
         return redirect(reverse("login"))
 
-    return redirect(reverse("404"))
+    return show_error(request, 'Link Broken')
 
 
 def confirm_email(request):
@@ -115,7 +114,7 @@ def forgot_password(request):
             try:
                 driver = Driver.objects.get(email=email)
             except Driver.DoesNotExist:
-                return redirect(reverse("404"))
+                return show_error(request, 'Driver Does Not Exist')
 
             mailjet = Client(auth=(settings.MAILJET_API_KEY,
                                    settings.MAILJET_API_SECRET), version='v3.1')
@@ -161,7 +160,7 @@ def reset_password(request):
             try:
                 driver = Driver.objects.get(pk=request.POST['driver_id'])
             except Driver.DoesNotExist:
-                return redirect(reverse('404'))
+                return show_error(request, 'Driver Does Not Exist')
             driver.set_password(request.POST['password1'])
             driver.save()
             # print(form.errors)
@@ -171,7 +170,7 @@ def reset_password(request):
 
     # print("hello cnana")
     if not data:
-        return redirect(reverse('404'))
+        return show_error(request, 'Unable to validate this user')
 
     # Decode the URL-safe base64 encoded string
     decoded_bytes = urlsafe_base64_decode(data)

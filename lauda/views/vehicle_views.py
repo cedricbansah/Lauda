@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from lauda.models import Driver
+from lauda.utils.show_errors import show_error
 
 
 # @login_required(login_url="login")
@@ -13,7 +14,7 @@ def vehicle_view(request):
     try:
         driver = Driver.objects.get(id=request.session['user_id'])
     except Driver.DoesNotExist:
-        return redirect(reverse('404'))
+        return show_error(request, 'Driver Does Not Exist')
 
     driver_vehicle = driver.vehicle_assigned
 

@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
-from lauda.models import User, Driver
+from lauda.models import User, Driver, Vehicle
+from lauda.forms.vehicle_forms import VehicleAdminForm
 
 
 class ManagerAdmin(UserAdmin):
@@ -14,7 +15,7 @@ class ManagerAdmin(UserAdmin):
     fieldsets = (
         ('Admin Information', {
             'fields': (
-                'email', 'password', 'first_name', 'last_name', 'contact', 'is_active',
+                'email', 'password', 'first_name', 'last_name', 'is_active',
                 'is_superuser', 'groups', 'user_permissions',),
         }),
     )
@@ -23,7 +24,7 @@ class ManagerAdmin(UserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': (
-                'email', 'password1', 'password2', 'first_name', 'last_name', 'contact', 'is_superuser', 'groups',
+                'email', 'password1', 'password2', 'first_name', 'last_name', 'is_superuser', 'groups',
                 'user_permissions'),
         }),
     )
@@ -46,7 +47,6 @@ class ManagerAdmin(UserAdmin):
         super().save_model(request, obj, form, change)
 
 
-
 class DriverAdmin(UserAdmin):
     list_display = (
         'id',
@@ -60,7 +60,6 @@ class DriverAdmin(UserAdmin):
         'phone_number',
         'license_number',
         'address',
-        'vehicle_assigned'
     )
     search_fields = ('id', 'email', 'first_name', 'last_name',)
 
@@ -97,7 +96,12 @@ class DriverAdmin(UserAdmin):
         return changelist_instance
 
 
+class VehicleAdmin(admin.ModelAdmin):
+    list_display = ('make', 'model', 'year', 'license_plate', 'color', 'vehicle_type', 'vehicle_status', 'driver_assigned')
+    form = VehicleAdminForm
+
 
 # Register your models here.
 admin.site.register(User, ManagerAdmin)
 admin.site.register(Driver, DriverAdmin)
+admin.site.register(Vehicle, VehicleAdmin)

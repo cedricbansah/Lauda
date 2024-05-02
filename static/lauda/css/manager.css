@@ -63,3 +63,16 @@
         padding: 16px;
 
     }
+
+    .driver-dropdown {
+      width: fit-content;  /* Adjust width if needed */
+      padding: 5px;  /* Adjust padding as needed */
+      border: 1px solid #ccc;  /* Adjust border style and color */
+}
+
+.update-button {
+    width: fit-content;  /* Match width of dropdown */
+    padding: 5px;  /* Adjust padding as needed */
+    border: 1px solid #ccc;  /* Adjust border style and color */
+    background-color: #f0f0f0;  /* Adjust background color */
+}

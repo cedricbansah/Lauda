@@ -100,22 +100,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'LAUDA',
-        'USER': 'postgres',
-        'PASSWORD': 'cnanapostgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('NAME') if DEBUG else os.environ.get('PROD_NAME'),
+        'USER': os.environ.get('USER') if DEBUG else os.environ.get('PROD_USER'),
+        'PASSWORD': os.environ.get('PASSWORD') if DEBUG else os.environ.get('PROD_PASSWORD'),
+        'HOST': os.environ.get('HOST') if DEBUG else os.environ.get('PROD_HOST'),
+        'PORT': os.environ.get('PORT') if DEBUG else os.environ.get('PROD_PORT'),
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_ID')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PW')
-
-DEFAULT_FROM_EMAIL = 'User Verification<no_reply@lauda.com>'
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

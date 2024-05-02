@@ -22,6 +22,23 @@ class User(AbstractUser):
         return None
 
 
+
+class Driver(User):
+    # Model to represent a driver
+    date_of_birth = models.DateField()
+    phone_number = models.CharField(max_length=10)
+    license_number = models.CharField(max_length=255, unique=True)
+    address = models.CharField(max_length=255)
+    # vehicle_assigned = models.ForeignKey(Vehicle, related_name='driver', on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.license_number}"
+
+    class Meta:
+        verbose_name = _("Driver")
+        verbose_name_plural = _("Drivers")
+
+
 class Vehicle(models.Model):
     # Model to represent a vehicle
     HATCHBACK = "Hatchback"
@@ -61,37 +78,9 @@ class Vehicle(models.Model):
         default=ACTIVE
     )
 
-    # driver_assigned = models.ForeignKey(Driver, to_field=registration_number, on_delete=models.SET_NULL, null=True,
+    driver_assigned = models.ForeignKey(Driver, on_delete=models.SET_NULL, related_name='vehicles', null=True, blank=True)
     # blank=True)
 
     def __str__(self):
         return f"{self.year} {self.make} {self.model} - {self.license_plate}"
 
-
-class Driver(User):
-    # Model to represent a driver
-    date_of_birth = models.DateField()
-    phone_number = models.CharField(max_length=10)
-    license_number = models.CharField(max_length=255, unique=True)
-    address = models.CharField(max_length=255)
-    vehicle_assigned = models.OneToOneField(Vehicle, related_name='driver', on_delete=models.SET_NULL, null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.license_number}"
-
-    class Meta:
-        verbose_name = _("Driver")
-        verbose_name_plural = _("Drivers")
-
-
-# class User(AbstractUser):
-#     class Meta(AbstractUser.Meta):
-#         swappable = 'AUTH_USER_MODEL'
-#
-#     def __str__(self):
-#         return f"{self.username} {self.email}"
-
-
-class VerificationToken(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    token = models.CharField(max_length=255)
