@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-coe)f0xr+v6$zhj4hlek2-s=9qwp2fwk&%v0_oiuegh8rov5z@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -97,6 +97,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 #     }
 # }
 
+print(os.environ.get('PORT'))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

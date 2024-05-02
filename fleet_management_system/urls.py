@@ -81,9 +81,8 @@ urlpatterns = [
          export_to_excel_view.export_to_excel,
          name='export_to_excel'),
 
-    path('', include('lauda.urls')),
-    path('', include('django_registration.backends.one_step.urls')),
-    path('__reload__/', include('django_browser_reload.urls')),
+    # path('', include('django_registration.backends.one_step.urls')),
+    # path('__reload__/', include('django_browser_reload.urls')),
     path('404/', errors_view, name="404"),
     path('logout/', auth_views.login, name='logout' )
 ]
