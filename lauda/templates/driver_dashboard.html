@@ -9,7 +9,6 @@
         <h1 class="text-xl font-bold">LAUDA DRIVER DASHBOARD</h1>
     </header>
 
- {% if user.is_authenticated %}
   {% if assigned_vehicles %}
     <ul class="list-disc mx-auto px-4 py-2 rounded-md bg-gray-100 shadow-md">
       {% for vehicle in assigned_vehicles %}
@@ -26,9 +25,6 @@
   {% else %}
     <p>You currently have no assigned vehicles.</p>
   {% endif %}
-{% else %}
-  <p>You are not logged in.</p>
-{% endif %}
 
 
 

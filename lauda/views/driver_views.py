@@ -20,7 +20,8 @@ def driver_dashboard(request):
 
     vehicles_assigned = driver.vehicles.all()  # Efficiently retrieve all assigned vehicles
     context = {
-        'assigned_vehicles': vehicles_assigned
+        'assigned_vehicles': vehicles_assigned,
+        'user': driver
     }
     return render(request, 'driver_dashboard.html', context)
 
