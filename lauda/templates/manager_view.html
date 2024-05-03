@@ -41,7 +41,7 @@
 
             <div class="bg-gray-100 rounded-md p-4 shadow-md">
                 <h1 class="text-center text-2xl font-bold">Vehicle Type</h1>
-                <canvas id="vehicleTypeChart" width="100" height="100"></canvas>\
+                <canvas id="vehicleTypeChart" width="100" height="100"></canvas>
             </div>
         </div>
 
@@ -64,7 +64,11 @@
                         <th>License Number</th>
                     </tr>
                 </thead>
-                <tbody>
+                <div id="pagination controls">
+                    <button id="prev-page-btn">Previous</button>
+                    <button id="next-page-btn">Next</button>
+                </div>
+                <tbody id="driver-table-body">
                     {% for driver in all_drivers %}
                     <tr>
                         <td>{{ driver.first_name }}</td>
@@ -95,7 +99,11 @@
                         <th>Assigned Driver</th>
                     </tr>
                 </thead>
-                <tbody>
+                <div id="pagination controls">
+                    <button id="prev-page-btn">Previous</button>
+                    <button id="next-page-btn">Next</button>
+                </div>
+                <tbody id="vehicle-table-body">
                     {% for vehicle in all_vehicles %}
                     <input type="hidden" name="vehicle_id-{{ vehicle.id }}" value="{{ vehicle.id }}">
                         <td>{{ vehicle.year }}</td>
@@ -112,7 +120,6 @@
             </table>
         </div>
     <script src="{% static 'lauda/js/manager.js' %}"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
     </body>
 </html>

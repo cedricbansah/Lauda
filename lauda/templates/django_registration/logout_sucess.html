@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      {% load static %}
+      <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}">
+      <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+      <title>LOGOUT SUCCESS</title>
+    </head>
+    <body>
+      <div class="flex min-h-screen bg-gray-200">  <div class="mx-auto w-full max-w-sm p-4 mt-10">  <div class="bg-blue-500 text-white p-2 rounded-t-md">  LOG IN TO LAUDA
+          </div>
+          <form class="login_form mx-auto mt-8" method="post"> {% csrf_token %}
+              {{ form.as_p }}
+            <button type="submit" class="block w-full p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-b-md">Log Back In</button>  </form>
+          <p class="text-center mt-8">
+            Don't have a user account? Register <a href="register" class="text-blue-500 underline">here</a>
+          </p>
+          <p class="text-center mt-2">
+            Forgot password? Reset your password <a href="forgot_password" class="text-blue-500 underline">here</a>
+          </p>
+        </div>
+      </div>
+    </body>
+</html>
