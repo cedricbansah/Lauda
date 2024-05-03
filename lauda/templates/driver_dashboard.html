@@ -5,44 +5,25 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="mx-4">
-    <header class="bg-blue-600 text-white px-4 py-2 flex justify-center items-center">
-        <h1 class="text-xl font-bold">LAUDA DRIVER DASHBOARD</h1>
+    <header class="bg-blue-600 text-white px-4 py-2 flex">
+        <h1 class="text-xl font-bold text-start">LAUDA DRIVER DASHBOARD</h1>
+        <p class="text-capitalize">{{ user.name }} {{ user.license_number }}</p>
+        <a class="ml-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 font-bold text-end" href="{% url 'logout' %}">Logout</a>
+
     </header>
 
   {% if assigned_vehicles %}
     <ul class="list-disc mx-auto px-4 py-2 rounded-md bg-gray-100 shadow-md">
+    <h1 class="text-2xl">VEHICLES ASSIGNED TO YOU</h1>
       {% for vehicle in assigned_vehicles %}
         <li class="text-lg font-medium">
-          Make: {{ vehicle.make }}
-          Model: {{ vehicle.model }} (Year: {{ vehicle.year }})
-        </li>
-        <li class="text-lg font-medium">
-          License Plate: {{ vehicle.license_plate }}
-          Color: {{ vehicle.color }}
+          {{ vehicle }}
         </li>
         {% endfor %}
     </ul>
   {% else %}
     <p>You currently have no assigned vehicles.</p>
   {% endif %}
-
-
-
-
-  <h2 class="mt-6 text-center">Your Profile:</h2>
-    <ul class="list-none mx-auto px-4 py-2 rounded-md bg-gray-100 shadow-md">
-      <li class="text-lg font-medium">First Name: {{ user.first_name }}</li>
-      <li class="text-lg font-medium">Last Name: {{ user.last_name }}</li>
-      <li class="text-lg font-medium">Username: {{ user.username }}</li>
-      <li class="text-lg font-medium">Email: {{ user.email }}</li>
-      <li class="text-lg font-medium">License Number: {{ user.license_number }}</li>
-{#      {% for field, value in driver.fields.items %}#}
-{#        {% if field.name not in ['vehicle_assigned', 'id'] %}#}
-{#          <li class="text-lg font-medium">{{ field.verbose_name }}: {{ value }}</li>#}
-{#        {% endif %}#}
-{#      {% endfor %}#}
-    </ul>
-
 
 </body>
 </html>

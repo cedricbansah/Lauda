@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import ModelForm, CharField, PasswordInput, BooleanField, TextInput
+from django.forms import ModelForm, CharField, PasswordInput, BooleanField, TextInput, DateField
 
 from lauda.models import Driver
 
@@ -8,6 +8,7 @@ from lauda.models import Driver
 class DriverForm(ModelForm):
     password1 = CharField(label='Password', widget=PasswordInput)
     password2 = CharField(label='Password confirmation', widget=PasswordInput)
+    # date_of_birth = DateField(label='Date of birth', widget=forms.DateInput(attrs={'type': 'date'}))
     # is_active = BooleanField(label='Is active')
 
     class Meta:
@@ -21,6 +22,9 @@ class DriverForm(ModelForm):
                   'address',
                   'password1',
                   'password2', ]
+        widgets = {
+            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+        }
 
     def clean_password2(self):
         # Check that the two password entries match

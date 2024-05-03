@@ -18,17 +18,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-
 from fleet_management_system import settings
 from lauda.views import (driver_views, auth_views,
-                         index_views,
+                         index_views, export_to_pdf_view,
                          manager_views, export_to_excel_view)
 
 from lauda.views.error_view import errors_view
 
-
-
 urlpatterns = [
+
     path('admin/', admin.site.urls),
 
     path('register/',
@@ -39,14 +37,9 @@ urlpatterns = [
          auth_views.login,
          name='login'),
 
-    path('index/',
-         index_views.index_view,
-         name='index'),
-
     path('email_verification/',
          auth_views.verify_email,
          name='email_verification'),
-
 
     path('email_confirmation/',
          auth_views.confirm_email,
@@ -72,18 +65,18 @@ urlpatterns = [
          manager_views.manager_view,
          name='manager_dashboard'),
 
-    path('manager_dashboard/update_assigned_driver/<int:vehicle_id>',
-         manager_views.update_assigned_driver,
-         name='update_assigned_driver'),
-
-    path('export-to-excel/',
+    path('export_to_excel/',
          export_to_excel_view.export_to_excel,
          name='export_to_excel'),
+
+    path('export-to-pdf/',
+         export_to_pdf_view.export_to_pdf,
+         name='export_to_pdf'),
 
     # path('', include('django_registration.backends.one_step.urls')),
     # path('__reload__/', include('django_browser_reload.urls')),
     path('404/', errors_view, name="404"),
-    path('logout/', auth_views.login, name='logout' )
+    path('logout/', auth_views.logout_view, name='logout')
 ]
 
 if settings.DEBUG:

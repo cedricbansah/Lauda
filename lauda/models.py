@@ -34,6 +34,9 @@ class Driver(User):
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.license_number}"
 
+    def name(self):
+        return f"{self.first_name} {self.last_name}"
+
     class Meta:
         verbose_name = _("Driver")
         verbose_name_plural = _("Drivers")
@@ -82,5 +85,6 @@ class Vehicle(models.Model):
     # blank=True)
 
     def __str__(self):
-        return f"{self.year} {self.make} {self.model} - {self.license_plate}"
+        return f"{self.year} {self.make} {self.model} | {self.license_plate}"
+
 

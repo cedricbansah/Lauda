@@ -19,22 +19,29 @@
           data-minivan-count="{{ Minivan_count }}"
           data-pickuptruck-count="{{ PickupTruck_count }}"
           data-hatchback-count="{{ Hatchback_count }}">
-        <form class="flex items-center mb-3 bg-blue-100 px-4 py-2 rounded-md shadow-md" method="post" enctype="multipart/form-data">
+    <header class="bg-blue-600 text-white px-4 py-2 flex">
+        <h1 class="text-xl font-bold text-gray-300 rounded-md text-center">LAUDA MANAGER DASHBOARD</h1>
+        <a class="content-end ml-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 font-bold" href="{% url 'logout' %}">Logout</a>
+    </header>
+        <form class="flex items-center mb-3 bg-blue-500 px-4 py-4 rounded-md shadow-md" method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          <button class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 font-bold mr-4" onclick="window.location.href='{% url 'export_to_excel' %}'">Export Vehicles to Excel</button>  <label for="file" class="mr-2 text-gray-700 font-bold">Upload Excel File:</label>
+          <a href="{% url 'export_to_excel' %}" class="ml-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-800 font-bold mr-4 decoration-white">Export Vehicles to Excel</a>
+          <a href="{% url 'export_to_pdf' %}" class="ml-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700 font-bold mr-4 decoration-white">Export Vehicles to PDF</a>
+            <label for="file" class="mr-2 text-gray-700 font-bold">Upload Excel File:</label>
           <input type="file" name="file" id="file" class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
           <input type="hidden" name="is_cancelled" value="0"> <button class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 font-bold" type="submit">Save New Vehicles</button>
           <button class="ml-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 font-bold" type="submit">Cancel</button>
-            <button class="ml-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 font-bold" type="submit" formaction="{% url 'logout' %}">Logout</button>
         </form>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-3 gap-6">
             <div class="bg-gray-100 rounded-md p-4 shadow-md">
-                <canvas id="vehicleStatusChart" width="400" height="300"></canvas>
+                <h1 class="text-center text-2xl font-bold" >Vehicle Status</h1>
+                <canvas id="vehicleStatusChart" width="100" height="100"></canvas>
             </div>
 
             <div class="bg-gray-100 rounded-md p-4 shadow-md">
-                <canvas id="vehicleTypeChart" width="400" height="300"></canvas>\
+                <h1 class="text-center text-2xl font-bold">Vehicle Type</h1>
+                <canvas id="vehicleTypeChart" width="100" height="100"></canvas>\
             </div>
         </div>
 

@@ -1,5 +1,6 @@
 from urllib.parse import parse_qs
 
+from django.contrib.auth import logout
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from mailjet_rest import Client
@@ -84,6 +85,11 @@ def login(request):
         login_form = LoginForm()
 
     return render(request, "django_registration/login_form.html", {'form': login_form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect(reverse('login'))
 
 
 def verify_email(request):
