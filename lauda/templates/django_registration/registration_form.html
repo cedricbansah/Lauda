@@ -1,23 +1,21 @@
 {#{% extends '../base.html' %}#}
 {#{% load tailwind_tags %}#}
 {#{% tailwind_css %}#}
+<html>
     <head>
         <!-- Include Django's default CSS -->
       {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
         <title>Register</title>
     </head>
-    {% block title %}
-        Register a new user
-    {% endblock %}
-
-    {% block content %}
-        <h1>Register a new user</h1>
-        <form class="registration_form" method="post">
+    <body>
+    <div class="flex min-h-screen bg-gray-200">  <div class="mx-auto w-full max-w-sm p-4 mt-10">  <div class="bg-blue-500 text-white p-2 rounded-t-md">  REGISTER AS DRIVER - LAUDA
+          </div>
+        <form class="registration_form mx-auto mt-8" method="post">
           {% csrf_token %}
             {{ form.as_p }}
-            <button>Submit</button>
+            <button type="submit" class="block w-full p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-b-md">Submit</button>
         </form>
-    {% endblock %}
-  </body>
+    </body>
 </html>
