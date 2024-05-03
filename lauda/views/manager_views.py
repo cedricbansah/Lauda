@@ -1,3 +1,4 @@
+from django.core.serializers import serialize
 from django.db import IntegrityError
 from django.db.models import Count, When, Case, IntegerField, Q
 from django.shortcuts import render, redirect
@@ -49,6 +50,10 @@ def manager_view(request):
     all_vehicles = Vehicle.objects.all()
     all_drivers = Driver.objects.all()
 
+    all_vehicles_json = serialize('json', all_vehicles)
+    all_drivers_json = serialize('json', all_drivers)
+
+
     vehicles = all_vehicles.aggregate(
         total_vehicles=Count('id'),
         active_vehicles=Count(Case(When(vehicle_status='Active', then=1), output_field=IntegerField())),
@@ -62,7 +67,7 @@ def manager_view(request):
         total_vehicles=Count('id'),
         **{''.join(char for char in vehicle_type if char.isalnum()) + '_count': Count('id', filter=Q(vehicle_type=vehicle_type)) for vehicle_type in vehicle_types}
     )
-    print(vehicle_types_count)
+    # print(vehicle_types_count)
     # drivers = all_drivers.aggregate(
     #     total_drivers=Count('id'),
     #     assigned_drivers=Count(Case(When(vehicle_assigned__isnull=False, then=1), output_field=IntegerField())),
@@ -85,13 +90,15 @@ def manager_view(request):
         'total_vehicles': total_vehicles,
         'active_vehicles': active_vehicles,
         'inactive_vehicles': inactive_vehicles,
+        'all_drivers_json': all_drivers_json,
+        'all_vehicles_json': all_vehicles_json,
         # 'total_drivers': total_drivers,
         # 'assigned_drivers': assigned_drivers,
         # 'unassigned_drivers': unassigned_drivers,
         **vehicle_types_count
 
     }
-    # print(context)
+    # print(all_drivers_json)
 
     return render(request, 'manager_view.html', context)
 

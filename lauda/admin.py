@@ -76,7 +76,8 @@ class DriverAdmin(UserAdmin):
                 'is_active',
                 'address',
                 'license_number',
-                'date_of_birth'),
+                'date_of_birth',
+                'is_staff'),
         }),
     )
 
@@ -85,7 +86,7 @@ class DriverAdmin(UserAdmin):
             'classes': ('wide',),
             'fields': (
                 'email', 'password1', 'password2', 'first_name', 'last_name', 'phone_number', 'address',
-                'license_number', 'date_of_birth'),
+                'license_number', 'date_of_birth', 'is_staff'),
         }),
     )
 
