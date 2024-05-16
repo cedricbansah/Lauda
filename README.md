@@ -21,7 +21,7 @@ To get started with Lauda Fleet Management System, follow these steps:
 1. Clone the repository (production branch):
 
    ```bash
-   git clone https://github.com/yourusername/lauda-fleet-management.git
+   git clone https://github.com/cedricbansah/lauda-fleet-management.git
    ```
 
 2. Navigate into the project directory:
