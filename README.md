@@ -1,4 +1,4 @@
-# Lauda Fleet Management System
+# Lauda - Fleet Management System
 
 Welcome to Lauda Fleet Management System, a Django web application designed to streamline and manage your fleet operations efficiently. Lauda offers a comprehensive suite of features including Chartjs graphs for vehicle information visualization, user authentication with a login screen for drivers/users, email verification for new driver accounts, importing vehicles using Excel, and exporting data to Excel and PDF formats.
 
@@ -16,18 +16,18 @@ Welcome to Lauda Fleet Management System, a Django web application designed to s
 
 ## Installation
 
-To get started with Lauda Fleet Management System, follow these steps:
+To get started with Lauda, follow these steps:
 
 1. Clone the repository (production branch):
 
    ```bash
-   git clone https://github.com/cedricbansah/lauda-fleet-management.git
+   git clone https://github.com/cedricbansah/Lauda.git
    ```
 
 2. Navigate into the project directory:
 
    ```bash
-   cd lauda-fleet-management
+   cd lauda
    ```
 
 3. Install the required dependencies:
@@ -48,7 +48,7 @@ To get started with Lauda Fleet Management System, follow these steps:
    python manage.py runserver
    ```
 
-6. Open your web browser and navigate to `http://localhost:8000` to access Lauda Fleet Management System.
+6. Open your web browser and navigate to `http://localhost:8000` to access Lauda.
 
 ## Usage
 
@@ -78,4 +78,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For any inquiries or support, please contact [cedibans@gmail.com](mailto:cedibans@gmail.com).
 
-Thank you for choosing Lauda Fleet Management System! I hope it helps streamline your fleet operations.
+Thank you for choosing Lauda! I hope it helps streamline your fleet operations.
