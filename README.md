@@ -18,7 +18,7 @@ Welcome to Lauda Fleet Management System, a Django web application designed to s
 
 To get started with Lauda Fleet Management System, follow these steps:
 
-1. Clone the repository:
+1. Clone the repository (production branch):
 
    ```bash
    git clone https://github.com/yourusername/lauda-fleet-management.git
