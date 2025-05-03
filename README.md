@@ -1,5 +1,7 @@
 # Lauda - Fleet Management System
 
+this is an update for because she can
+
 Welcome to Lauda Fleet Management System, a Django web application designed to streamline and manage your fleet operations efficiently. Lauda offers a comprehensive suite of features including Chartjs graphs for vehicle information visualization, user authentication with a login screen for drivers/users, email verification for new driver accounts, importing vehicles using Excel, and exporting data to Excel and PDF formats.
 
 ## Features
